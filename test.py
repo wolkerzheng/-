@@ -1,8 +1,13 @@
 #encoding=utf-8
 """
-开始自学python，看着廖的文档挺无聊，不如多动手变成
+学python，看着廖的文档挺无聊，不如多动手编程
 学着多用python进行开发。于是就想起用leetcode来进行相关python练习
 """
+class TreeNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
 
 class ListNode(object):
     def __init__(self, x):
@@ -195,9 +200,26 @@ def swapPairs(self, head):
     :rtype: ListNode
 
     """
-        
-    pass
-
+    # if head is None:
+    #         return head
+    # p = head.next
+    # while p is not None and p.next is not None:
+    #     q = p.next
+    #     p.next = q.next
+    #     p = q
+    #     p = p.next.next
+    # return head
+    pre = ListNode(0)
+    pre.next = head
+    curr = head
+    head = pre
+    while curr and curr.next:      # curr =1, curr.next =2
+        pre.next = curr.next       # 0 --> 2
+        curr.next = pre.next.next  # 1 --> 3  # curr.next.next
+        pre.next.next = curr       # 3 --> 1
+        pre = curr                 # pre = 1
+        curr = curr.next           # curr= 3
+    return head.next
 
 def rob(nums):
     """
@@ -220,6 +242,108 @@ def rob(nums):
     return nums[-1]
 
 
+def isSymmetric( root):
+    """
+    :type root: TreeNode
+    :rtype: bool
+    这种python写法比java简洁
+    """
+    if root is None:
+        return True
+    stack = [[root.left,root.right]]
+    # p = root.left
+    # q = root.right
+    while stack:
+        node1,node2 = stack.pop()
+        if node1 and node2:
+            if node1.val != node2.val:
+                return False
+            else:
+                stack.append([node1.left,node2.rigth])
+                stack.append([node1.right,node2.left])
+        else:
+            if node1 == node2:     #这种情况是两个节点都是none，所以直接判断。
+                continue
+            else:
+                return False
+
+    return True
+
+
+def levelOrderBottom(root):
+    """
+    :type root: TreeNode
+    :rtype: List[List[int]]
+    """
+    pass
+
+def levelOrder( root):
+    """
+    时间用时较多，不是优解
+    :param root:
+    :return:
+    """
+    if not root:
+        return []
+    queue,qn,res = [root],[],[]
+
+    while queue:
+        qn,res1 =[],[]
+        while queue:
+            tmp = queue.pop(0)
+            res1.append(tmp.val)
+            if tmp.left:
+                qn.append(tmp.left)
+            if tmp.right:
+                qn.append(tmp.right)
+        res.append(res1)
+        queue = qn
+
+    return res
+
+
+
+def generate(numRows):
+    """
+    :type numRows: int
+    :rtype: List[List[int]]
+    """
+    #这种解法时间耗费多
+    # res = []
+    # for i in xrange(numRows):
+    #     tmp=[]
+    #     for j in xrange(i+1):
+    #         if i-1<0 or j-1<0 or j>i-1:
+    #             tmp.append(1)
+    #         else:
+    #             tmp.append(res[i-1][j]+res[i-1][j-1])
+    #     res.append(tmp)
+    # return res
+    if numRows == 0:
+        return []
+    res = [[1], ]
+    for i in range(0, numRows - 1):
+        l = [sum(p) for p in list(zip(res[i], res[i][1:]))]
+        l.insert(0, 1)
+        l.append(1)
+        res.append(l)
+    return res
+
+def isBalanced(root):
+    """
+    :type root: TreeNode
+    :rtype: bool
+    """
+    if not root:
+        return True
+    if abs(getHeight(root.left) - getHeight(root.right)) > 1:return False
+    return isBalanced(root.left) and isBalanced(root.right)
+
+def getHeight(root):
+    return 0 if root is None else max(getHeight(root.left),getHeight(root.right))+1
+
+
+
 # while True:
 # 	a = (raw_input())
 # 	a = [int(w) for w in a.split(" ")]
@@ -227,10 +351,13 @@ def rob(nums):
 # a = [[1,3],[3,4],[2,2],[1,10],[5,7]]
 # print a
 if __name__ == '__main__':
-
     while True:
-        a = (raw_input())
-        a = [int(w) for w in a.split(",")]
-        print rob(a)
+        a = int(raw_input())
+        print generate(a)
+    pass
+    # while True:
+    #     a = (raw_input())
+    #     a = [int(w) for w in a.split(" ")]
+
         # a =  int(raw_input())
         # print isPowerOfFour(a)
