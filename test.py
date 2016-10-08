@@ -275,11 +275,30 @@ def levelOrderBottom(root):
     :type root: TreeNode
     :rtype: List[List[int]]
     """
-    pass
+    if not root:
+        return []
+
+    level_dict = {}
+    def reverse_tree(r,level):
+        if not r:
+            return
+        if level in level_dict:
+            level_dict[level].append(r.val)
+        else:
+            level_dict[level] = [r.val]
+        if r.left:
+            reverse_tree(r.left,level + 1)
+        if r.right:
+            reverse_tree(r.right,level + 1)
+    reverse_tree(root,0)
+    boot_up_last = [level_dict[l] for l in sorted(level_dict,reverse=True) ]
+    return  boot_up_last
+    # pass
 
 def levelOrder( root):
     """
-    时间用时较多，不是优解
+    时间用时较多，不是优解；
+    层次遍历，一层一层的输出节点
     :param root:
     :return:
     """
@@ -302,7 +321,25 @@ def levelOrder( root):
     return res
 
 
+def readBinaryWatch(num):
+    """
+    二进制时间表；
+    :type num: int
+    :rtype: List[str]
+    """
+    pass
 
+def binaryTreePaths( root):
+
+    pass
+def hasPathSum( root, sum):
+    """
+    :type root: TreeNode
+    :type sum: int
+    :rtype: bool
+    """
+
+    pass
 def generate(numRows):
     """
     :type numRows: int
@@ -343,6 +380,32 @@ def getHeight(root):
     return 0 if root is None else max(getHeight(root.left),getHeight(root.right))+1
 
 
+def trailingZeroes(n):
+    """
+    求解N的阶乘后面0的个数；
+    10 = 2*5；
+    :type n: int
+    :rtype: int
+    """
+    sum=0
+    i=1
+    while pow(5,i) <= n:
+        sum += n/pow(5,i)
+        i+=1
+    return sum
+
+
+def sumOfLeftLeaves( root):
+    """
+    :type root: TreeNode
+    :rtype: int
+    计算左叶子之和
+    """
+    if not root:
+        return 0
+    if root.left and not root.left.left and not root.left.right:
+        return root.left.val + sumOfLeftLeaves(root.right)
+    return sumOfLeftLeaves(root.left) + sumOfLeftLeaves(root.right)
 
 # while True:
 # 	a = (raw_input())
@@ -353,8 +416,8 @@ def getHeight(root):
 if __name__ == '__main__':
     while True:
         a = int(raw_input())
-        print generate(a)
-    pass
+        print trailingZeroes(a)
+
     # while True:
     #     a = (raw_input())
     #     a = [int(w) for w in a.split(" ")]
