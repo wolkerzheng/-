@@ -1,6 +1,6 @@
 #encoding=utf-8
 """
-学python，看着廖的文档挺无聊，不如多动手编程
+学习python，看着廖的文档挺无聊，不如多动手编程
 学着多用python进行开发。于是就想起用leetcode来进行相关python练习
 """
 class TreeNode(object):
@@ -330,16 +330,42 @@ def readBinaryWatch(num):
     pass
 
 def binaryTreePaths( root):
+    # @param {TreeNode} root
+    # @return {string[]}
+    # if not root: return []
+    # result = [str(root.val) + "->" + path for path in binaryTreePaths(root.left)]
+    # result += [str(root.val) + "->" + path for path in binaryTreePaths(root.right)]
+    # return result or [str(root.val)]  # if empty return leaf itself
+    if not root:
+        return []
+    visited,vstack,res = [root],[root],[]
+    while vstack:
+        p = vstack[-1]
+        if p.left and p.left not in visited:
+            vstack.append(p.left)
+            visited.append(p.left)
+        elif p.right and p.right not in visited:
+            vstack.append(p.right)
+            visited.append(p.right)
+        else:
+            if not p.left and not p.right:
+                res.append("->".join([str(q.val) for q in vstack]))
+            vstack.pop(-1)
+    return res
 
-    pass
+
 def hasPathSum( root, sum):
     """
     :type root: TreeNode
     :type sum: int
     :rtype: bool
     """
-
+    if not root:
+        return False
+    if not root.left and not root.right:
+        pass
     pass
+
 def generate(numRows):
     """
     :type numRows: int
