@@ -22,7 +22,7 @@ class Solution(object):
     def lengthOfLIS2(self, nums):
         """
         最长递增序列O(nlogn)
-        tail[i]表示存储长度为i+1的所有递增子序列的最小尾部
+         tail[i]表示存储长度为i+1的所有递增子序列中的有最小的结尾那个数
 		例如： nums = [4,5,6,3], 所有可能的序列为:
 		len = 1   :      [4], [5], [6], [3]   => tails[0] = 3
 		len = 2   :      [4, 5], [5, 6]       => tails[1] = 5
