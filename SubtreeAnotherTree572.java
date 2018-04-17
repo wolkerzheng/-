@@ -18,9 +18,23 @@ class Solution572 {
         		res =isSubtree(s.left,t.left)&&isSubtree(s.right,t.right);
         	if(res==true)
         		return res;
-        	res = res || isSubtree(s.left,t)||isSubtree(s.right,t);
+        	res = isSubtree(s.left,t)||isSubtree(s.right,t);
         }
-
+        
         return res;
+    }
+    public boolean isSubtreeS(TreeNode s, TreeNode t) {
+        if (s == null) return false;
+        if (isSame(s, t)) return true;
+        return isSubtree(s.left, t) || isSubtree(s.right, t);
+    }
+    
+    private boolean isSame(TreeNode s, TreeNode t) {
+        if (s == null && t == null) return true;
+        if (s == null || t == null) return false;
+        
+        if (s.val != t.val) return false;
+        
+        return isSame(s.left, t.left) && isSame(s.right, t.right);
     }
 }
